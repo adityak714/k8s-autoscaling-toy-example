@@ -2,7 +2,7 @@ kind: ScaledObject
 apiVersion: keda.sh/v1alpha1
 metadata:
   name: nginx-app-http
-  namespace: default
+  namespace: toy-example
 spec:
   scaleTargetRef:
     apiVersion: apps/v1                  
@@ -18,3 +18,9 @@ spec:
       serverAddress: http://prometheus-server.default.svc.cluster.local:80
       query: sum(rate(nginx_http_requests_total[1m]))
       threshold: "10"
+
+#service.yaml
+# metadata:
+#  annotations:
+#   prometheus.io/scrape: "true"
+#   prometheus.io/port: "9113"

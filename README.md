@@ -31,10 +31,13 @@ To see status if the deployment pod is spawned correctly: `kubectl get pods` (OR
     - Run the service (it serves the nginx-app): `kubectl apply -f service.yaml`
     - `kubectl port-forward <nginx-app-...> 9090` AND `kubectl port-forward service/nginx-app 8080:80`
     > One can run `kubectl port-forward <nginx-app> 9113` to see the scrapable metrics. It should have a /metrics endpoint if you visit localhost:9113.
+    - Run the ScaledObject `kubectl apply -f httpautoscaling.yaml`, used by KEDA.
+
+In all of the previously mentioned commands, make sure to indicate the particular namespace, by `kubectl -n <namespace>` if you wish to run this deployment separate to your other projects. It can be good to separate your deployments by their own namespaces, instead of `default`.
 
 5. Run the command to simulate heavy traffic.
     - `hey -z 2m -c 20 http://localhost:8080`
-    > The command means simulating requests for 2 minutes, from 50 concurrent request points, at the 8080 address (where the app is served).
+    > The command means simulating requests for 2 minutes, from 20 concurrent request points, at the 8080 address (where the app is served).
 
 Inspect with k9s and localhost:9090/query (Prometheus) to see the traffic increasing! On k9s, you should see more clusters spawn up.
 
